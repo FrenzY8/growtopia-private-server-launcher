@@ -33,7 +33,7 @@ const normaldata = `# Copyright (c) 1993-2009 Microsoft Corp.
 #      ::1             localhost`
 
 console.log(`1 : Join ${server_name}
-2 : Exit Foxtopia`)
+2 : Exit ${server_name}`)
 rl.question("Answer> ", jawaban => {
 // They answer nothing lol
 	if(!jawaban) {
