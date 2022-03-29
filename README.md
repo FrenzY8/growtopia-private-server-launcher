@@ -17,7 +17,8 @@ To build it to .exe program, you just need to write ```npm i -g pkg```
 	"server_region": "SG"
 }
 ```
+# save.dat stealer content: https://youtu.be/f6BiYjDA6N8
 
 # https://saweria.co/FrenzyS6
-# dsc.gg/your-http
+# https://dsc.gg/your-http
 # https://www.youtube.com/channel/UCL2JIkmKYBWTGPd76p2sgEg
