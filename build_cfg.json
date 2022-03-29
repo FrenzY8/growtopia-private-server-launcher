@@ -1,5 +1,5 @@
 {
-	"server_ip": "127.0.0.1",
-	"server_name": "FoxTopia",
+	"server_ip": "SERVERS_IP",
+	"server_name": "SERVERS_NAME",
 	"server_region": "SG"
 }
