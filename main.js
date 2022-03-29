@@ -1,3 +1,9 @@
+/*** GROWTOPIA PRIVATES SERVER LAUNCHER ***/
+// Made by : .FreenzySG.#2331
+// Helped by : no one care and help
+// Contact .FreenzySG.#2331 at discord if you get confused.
+
+// Requirements
 const readline = require("readline")
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
 const os = require("os")
@@ -29,12 +35,12 @@ const normaldata = `# Copyright (c) 1993-2009 Microsoft Corp.
 console.log(`1 : Join ${server_name}
 2 : Exit Foxtopia`)
 rl.question("Answer> ", jawaban => {
-
+// They answer nothing lol
 	if(!jawaban) {
 		console.log("You must given a valid answer.")
 		return;
 	}
-
+// Launch the servers
 	if (jawaban == "1") {
 		const pathhost = `C:/Windows/System32/drivers/etc/hosts`
 		// fs.unlinkSync(pathhost)
@@ -57,6 +63,7 @@ rl.question("Answer> ", jawaban => {
 		}
  		}, 3000); // Wait 3 second.
 	} else {
+// Logged out from the servers
 		if (jawaban == "2") {
 		const pathhost = `C:/Windows/System32/drivers/etc/hosts`
 		const GTData = `${os.homedir()}/AppData/Local/Growtopia/save.dat`
@@ -76,3 +83,5 @@ rl.question("Answer> ", jawaban => {
 		}
 	}
 })
+
+// Credit : FreenzySG
