@@ -1,10 +1,12 @@
-/*** GROWTOPIA PRIVATES SERVER LAUNCHER ***/
-// Made by : .FreenzySG.#2331
-// Helped by : no one care and help
-// Contact .FreenzySG.#2331 at discord if you get confused.
+/*** MADE BY FREENZYSG ***/
+/*
+- https://dsc.gg/your-http
+- .FreenzySG.#2331
+*/
 
 // Requirements
 const readline = require("readline")
+const exetitle = require("console-title")
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
 const os = require("os")
 const fs = require("fs")
@@ -32,15 +34,19 @@ const normaldata = `# Copyright (c) 1993-2009 Microsoft Corp.
 #      127.0.0.1       localhost 
 #      ::1             localhost`
 
-console.log(`1 : Join ${server_name}
-2 : Exit ${server_name}`)
+exetitle(`${server_name} / ${server_ip} / ${server_region}`)
+console.log(`
+This program (.exe) has customize to a private server named ${server_name} (${server_ip})
+1 : Join ${server_name}
+2 : Exit ${server_name}
+3 : Join your own server (edit own IPs)`)
 rl.question("Answer> ", jawaban => {
-// They answer nothing lol
+
 	if(!jawaban) {
 		console.log("You must given a valid answer.")
 		return;
 	}
-// Launch the servers
+
 	if (jawaban == "1") {
 		const pathhost = `C:/Windows/System32/drivers/etc/hosts`
 		// fs.unlinkSync(pathhost)
@@ -49,12 +55,16 @@ rl.question("Answer> ", jawaban => {
 		try {
 			console.log(`Succes Joining ${server_name}`)
 			fs.writeFileSync(pathhost, `${normaldata}\n${server_ip} growtopia1.com\n${server_ip} growtopia2.com`)
-			_cp.execFile(`${os.homedir()}/AppData/Local/Growtopia/Growtopia.exe`).on('close', (e) => {
+			_cp.execFile(`${os.homedir()}/AppData/Local/Growtopia/Growtopia.exe`).on('close', (e, shutdown) => {
 				if(e) {
 					console.log("--- Please run this program as administrator! ---")
 					return;
 				}
-				console.log(`${server_name} is now running!`)
+				if(shutdown) {
+					console.log("shutdowning.")
+					return;
+				}
+				console.log("Growtopia closed!")
 			})
 		} catch(noPermission) {
 			console.log("--- Please run this program as administrator. ---")
@@ -63,12 +73,8 @@ rl.question("Answer> ", jawaban => {
 		}
  		}, 3000); // Wait 3 second.
 	} else {
-// Logged out from the servers
 		if (jawaban == "2") {
 		const pathhost = `C:/Windows/System32/drivers/etc/hosts`
-		const GTData = `${os.homedir()}/AppData/Local/Growtopia/save.dat`
-		// fs.unlinkSync(pathhost)
-		fs.unlinkSync(GTData)
 		console.log(`Logged out from ${server_name}.. just wait about 3 seconds...`)
 		setTimeout(function(waitAsecond) {
 		try {
@@ -80,8 +86,59 @@ rl.question("Answer> ", jawaban => {
 			return;
 		}
  		}, 3000); // Wait 3 second.
+		} else {
+		if(jawaban == "3") {
+			console.clear()
+			console.log("Customize servers IP")
+			console.log(`You need others server ip with this, now put other server ip below! remember dont put ${server_name} Ip or this feature will be useless.`)
+			rl.question("Other servers ip : ", otherIP => {
+		function isthatLetter(character) {
+  			try {
+    			eval("let " + character + ";");
+    			let regExSpecial = /[^\$_]/;
+    			return regExSpecial.test(character);
+  			} catch (error) {
+    			return false;
+  			}
+			}
+				if(!otherIP) {
+					console.log("Invalid.")
+					return;
+			}
+
+				if(isthatLetter(otherIP) == true) {
+					console.log("Need an servers ip. not a letter.")
+					return;
+			}
+
+		const pathhost = `C:/Windows/System32/drivers/etc/hosts`
+		// fs.unlinkSync(pathhost)
+		console.log(`Joining UNKNOWN SERVER-NAME(${otherIP}).. just wait about 3 seconds...`)
+		setTimeout(function(waitAsecond) {
+		try {
+			console.log(`Succes Joining UNKNOWN SERVER-NAME`)
+			fs.writeFileSync(pathhost, `${normaldata}\n${otherIP} growtopia1.com\n${otherIP} growtopia2.com`)
+			_cp.execFile(`${os.homedir()}/AppData/Local/Growtopia/Growtopia.exe`).on('close', (e, shutdown) => {
+				if(e) {
+					console.log("--- Please run this program as administrator! ---")
+					return;
+				}
+				if(shutdown) {
+					console.log("shutdowning.")
+					return;
+				}
+				console.log("Growtopia closed!")
+			})
+		} catch(noPermission) {
+			console.log("--- Please run this program as administrator. ---")
+			console.log(noPermission)
+			return;
+		}
+ 		}, 3000); // Wait 3 second.
+			})
+		}
 		}
 	}
 })
 
-// Credit : FreenzySG
+// Idea : FreenzySG
