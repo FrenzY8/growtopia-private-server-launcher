@@ -2,6 +2,7 @@
 /*
 - https://dsc.gg/your-http
 - .FreenzySG.#2331
+- Contributor : asianzx, naZlatan, arlemons
 */
 
 // Requirements
@@ -11,9 +12,8 @@ const rl = readline.createInterface({ input: process.stdin, output: process.stdo
 const os = require("os")
 const fs = require("fs")
 const _cp = require('child_process')
-const { server_ip, server_name, server_region } = require('./build_cfg.json')
 function writeLogs(character) {
-	fs.appendFileSync(`./gtps-launcher-logs/${namaserver}.txt`, `\n${character}\n`)
+	fs.appendFileSync(`./gtps-launcher-logs/${namaserver}.txt`, `\n${character} | ${month}-${date} | ${hours}:${minutes}\n`)
 }
 function isthatLetter(character) {
 	try {
@@ -24,6 +24,20 @@ function isthatLetter(character) {
     		return false;
   	}
 }
+// current timestamp in milliseconds
+let date_ob = new Date();
+// adjust 0 before single digit date
+let date = ("0" + date_ob.getDate()).slice(-2);
+// current month
+let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+// current year
+let year = date_ob.getFullYear();
+// current hours
+let hours = date_ob.getHours();
+// current minutes
+let minutes = date_ob.getMinutes();
+// current seconds
+let seconds = date_ob.getSeconds();
 const normaldata = `# Copyright (c) 1993-2009 Microsoft Corp. 
 # 
 # This is a sample HOSTS file used by Microsoft TCP/IP for Windows. 
@@ -45,8 +59,9 @@ const normaldata = `# Copyright (c) 1993-2009 Microsoft Corp.
 # localhost name resolution is handled within DNS itself. 
 #      127.0.0.1       localhost 
 #      ::1             localhost`
-
+// Saving offline data - arlemons
 if(fs.existsSync('build_cfg.json')) {
+const { server_ip, server_name, server_region } = require('./build_cfg.json')
 exetitle(`${server_name} / ${server_ip} / ${server_region}`)
 console.log(`
 
@@ -58,6 +73,7 @@ console.log(`
                                                               
                                                               
 `)
+// Some desgin and main pages - frenzy
 console.log(`--- This Program is Open Sourced ---
 Visit : https://github.com/FrenzY8/growtopia-private-server-launcher
 for get the source
@@ -67,12 +83,12 @@ for get the source
 3 : Join your own server (edit own IPs)`)
 rl.question("Answer> ", jawaban => {
 
-	if(!jawaban) {
+	if(!jawaban) { // No answer given - frenzy
 		console.log("You must given a valid answer.")
 		return;
 	}
 
-	if (jawaban == "1") {
+	if (jawaban == "1") { // Joining to a server - naZlatan
 		const pathhost = `C:/Windows/System32/drivers/etc/hosts`
 		// fs.unlinkSync(pathhost)
 		console.log(`Joining ${server_name}.. just wait about 3 seconds...`)
@@ -83,6 +99,7 @@ rl.question("Answer> ", jawaban => {
 			_cp.execFile(`${os.homedir()}/AppData/Local/Growtopia/Growtopia.exe`).on('close', (e, shutdown) => {
 				writeLogs(`Succes Joining ${server_name}`)
 				if(e) {
+					// Missing permission - naZlatan
 					console.log("--- Please run this program as administrator! ---")
 					return;
 				}
@@ -120,11 +137,11 @@ rl.question("Answer> ", jawaban => {
 			console.log(`You need others server ip with this, now put other server ip below! remember dont put ${server_name} Ip or this feature will be useless.`)
 			rl.question("Other servers ip : ", otherIP => {
 				if(!otherIP) {
-					console.log("Invalid.")
+					console.log("Invalid.") // No answer given - frenzy
 					return;
 			}
 
-				if(isthatLetter(otherIP) == true) {
+				if(isthatLetter(otherIP) == true) { // Detect if this not a NUMBER (SERVER IP) - frenzy
 					console.log("Need an servers ip. not a letter.")
 					return;
 			}
@@ -159,6 +176,7 @@ rl.question("Answer> ", jawaban => {
 	}
 })
 } else {
+// Setup first server area - arlemons
 console.log(`
 ███████ ███████ ████████ ██    ██ ██████  
 ██      ██         ██    ██    ██ ██   ██ 
@@ -169,6 +187,7 @@ console.log(`
                                      `)
 rl.question("Enter the servers name : ", namaserver => {
 	if(!namaserver) {
+		// They not give the servers name - frenzy
 		console.log("Pls enter the correct servers name")
 		return;
 	}
@@ -188,14 +207,22 @@ const content = `{
 	"server_name": "${namaserver}",
 	"server_region": "${regional}"
 }`
-		fs.writeFileSync('./build_cfg.json', content)
 		console.log(`Please wait about 3 seconds... Trying to join ${namaserver}`)
 		console.log("This program will be automatically closed... dont worry, you can open it again..")
 		fs.writeFileSync(`./gtps-launcher-logs/${namaserver}.txt`, "- NOTHING -")
 		setTimeout( function(waitAndOpen) {
+			try { 
+			// Write the data here... -naZlatan
 			fs.writeFileSync('./build_cfg.json', content)
-			fs.appendFileSync(`./gtps-launcher-logs/${namaserver}.txt`, `\nJoining ${namaserver}\n`)
+			fs.writeFileSync(`./gtps-launcher-logs/${namaserver}.txt`, ``)
+			fs.appendFileSync(`./gtps-launcher-logs/${namaserver}.txt`, `\nJoining ${namaserver} | ${month}-${date} | ${hours}:${minutes}\n`)
 			process.exit();
+			} catch (erorsial) {
+				if(erorsial) {
+					console.log(erorsial)
+					return;
+				}
+			}
 		}, 3000)
 		})
 	})
@@ -203,3 +230,5 @@ const content = `{
 }
 
 // Idea : FreenzySG
+// Thanks to : nazlatan, arlemons, asianzx
+// saweria.co/FrenzyS6
