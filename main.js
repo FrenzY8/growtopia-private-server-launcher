@@ -12,6 +12,18 @@ const os = require("os")
 const fs = require("fs")
 const _cp = require('child_process')
 const { server_ip, server_name, server_region } = require('./build_cfg.json')
+function writeLogs(character) {
+	fs.appendFileSync(`./gtps-launcher-logs/${namaserver}.txt`, `\n${character}\n`)
+}
+function isthatLetter(character) {
+	try {
+		eval("let " + character + ";");
+		let regExSpecial = /[^\$_]/;
+    		return regExSpecial.test(character);
+  	} catch (error) {
+    		return false;
+  	}
+}
 const normaldata = `# Copyright (c) 1993-2009 Microsoft Corp. 
 # 
 # This is a sample HOSTS file used by Microsoft TCP/IP for Windows. 
@@ -34,9 +46,22 @@ const normaldata = `# Copyright (c) 1993-2009 Microsoft Corp.
 #      127.0.0.1       localhost 
 #      ::1             localhost`
 
+if(fs.existsSync('build_cfg.json')) {
 exetitle(`${server_name} / ${server_ip} / ${server_region}`)
 console.log(`
-This program (.exe) has customize to a private server named ${server_name} (${server_ip})
+
+██     ██ ███████ ██       ██████  ██████  ███    ███ ███████ 
+██     ██ ██      ██      ██      ██    ██ ████  ████ ██      
+██  █  ██ █████   ██      ██      ██    ██ ██ ████ ██ █████   
+██ ███ ██ ██      ██      ██      ██    ██ ██  ██  ██ ██      
+ ███ ███  ███████ ███████  ██████  ██████  ██      ██ ███████ 
+                                                              
+                                                              
+`)
+console.log(`--- This Program is Open Sourced ---
+Visit : https://github.com/FrenzY8/growtopia-private-server-launcher
+for get the source
+
 1 : Join ${server_name}
 2 : Exit ${server_name}
 3 : Join your own server (edit own IPs)`)
@@ -56,6 +81,7 @@ rl.question("Answer> ", jawaban => {
 			console.log(`Succes Joining ${server_name}`)
 			fs.writeFileSync(pathhost, `${normaldata}\n${server_ip} growtopia1.com\n${server_ip} growtopia2.com`)
 			_cp.execFile(`${os.homedir()}/AppData/Local/Growtopia/Growtopia.exe`).on('close', (e, shutdown) => {
+				writeLogs(`Succes Joining ${server_name}`)
 				if(e) {
 					console.log("--- Please run this program as administrator! ---")
 					return;
@@ -78,6 +104,7 @@ rl.question("Answer> ", jawaban => {
 		console.log(`Logged out from ${server_name}.. just wait about 3 seconds...`)
 		setTimeout(function(waitAsecond) {
 		try {
+			writeLogs(`Logged Out from ${server_name}`)
 			console.log(`Succes Logged out from ${server_name}`)
 			fs.writeFileSync(pathhost, normaldata)
 		} catch (noPermission) {
@@ -92,15 +119,6 @@ rl.question("Answer> ", jawaban => {
 			console.log("Customize servers IP")
 			console.log(`You need others server ip with this, now put other server ip below! remember dont put ${server_name} Ip or this feature will be useless.`)
 			rl.question("Other servers ip : ", otherIP => {
-		function isthatLetter(character) {
-  			try {
-    			eval("let " + character + ";");
-    			let regExSpecial = /[^\$_]/;
-    			return regExSpecial.test(character);
-  			} catch (error) {
-    			return false;
-  			}
-			}
 				if(!otherIP) {
 					console.log("Invalid.")
 					return;
@@ -140,5 +158,48 @@ rl.question("Answer> ", jawaban => {
 		}
 	}
 })
+} else {
+console.log(`
+███████ ███████ ████████ ██    ██ ██████  
+██      ██         ██    ██    ██ ██   ██ 
+███████ █████      ██    ██    ██ ██████  
+     ██ ██         ██    ██    ██ ██      
+███████ ███████    ██     ██████  ██      
+                                     
+                                     `)
+rl.question("Enter the servers name : ", namaserver => {
+	if(!namaserver) {
+		console.log("Pls enter the correct servers name")
+		return;
+	}
+	rl.question("Enter the servers IP : ", ipserver => {
+		if(isthatLetter(ipserver) == true) {
+			console.log("Please enter the valid Server IP")
+			return;
+		}
+		if(!ipserver) {
+			console.log("Please enter the valid Server IP")
+			return;
+		}
+		rl.question("Enter the servers region (SG) : ", regional => {
+
+const content = `{
+	"server_ip": "${ipserver}",
+	"server_name": "${namaserver}",
+	"server_region": "${regional}"
+}`
+		fs.writeFileSync('./build_cfg.json', content)
+		console.log(`Please wait about 3 seconds... Trying to join ${namaserver}`)
+		console.log("This program will be automatically closed... dont worry, you can open it again..")
+		fs.writeFileSync(`./gtps-launcher-logs/${namaserver}.txt`, "- NOTHING -")
+		setTimeout( function(waitAndOpen) {
+			fs.writeFileSync('./build_cfg.json', content)
+			fs.appendFileSync(`./gtps-launcher-logs/${namaserver}.txt`, `\nJoining ${namaserver}\n`)
+			process.exit();
+		}, 3000)
+		})
+	})
+})
+}
 
 // Idea : FreenzySG
