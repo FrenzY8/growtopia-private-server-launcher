@@ -2,7 +2,7 @@
 An growtpia-private server launcher for your servers.. (This very needed if you're growtopia-private servers owner.)
 
 # about this program
-This program is helpfull for your servers, they fast, nice, perfect, and good, so you now just open this program to LOGGED/LOGGED OUT from Privates Servers
+[STILL-UPDATED] This program is helpfull for your servers, they fast, nice, perfect, and good, so you now just open this program to LOGGED/LOGGED OUT from Privates Servers
 
 # build it to a exe
 To build it to .exe program, you just need to write ```npm i -g pkg```
